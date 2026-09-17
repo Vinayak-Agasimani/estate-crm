@@ -5,18 +5,25 @@ dns.setServers(["8.8.8.8", "1.1.1.1"]);
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
+
 require("dotenv").config();
 
 const customerRoutes = require("./routes/customerRoutes");
 const propertyRoutes = require("./routes/propertyRoutes");
 const leadRoutes = require("./routes/leadRoutes");
 const followUpRoutes = require("./routes/followUpRoutes");
-const cookieParser = require("cookie-parser");
 const authRoutes = require("./routes/authRoutes");
+const publicRoutes = require("./routes/publicRoutes");
+const ownerRoutes = require("./routes/ownerRoutes");
 
 const app = express();
 
-
+/*
+|--------------------------------------------------------------------------
+| CORS
+|--------------------------------------------------------------------------
+*/
 
 app.use(
   cors({
@@ -24,24 +31,53 @@ app.use(
     credentials: true,
   })
 );
+
+/*
+|--------------------------------------------------------------------------
+| Middleware
+|--------------------------------------------------------------------------
+*/
+
 app.use(express.json());
 app.use(cookieParser());
 
+/*
+|--------------------------------------------------------------------------
+| Routes
+|--------------------------------------------------------------------------
+*/
 
-// Routes
+/* Authentication */
+app.use("/api/auth", authRoutes);
+
+/* Public routes */
+app.use("/api/public", publicRoutes);
+
+/* Protected CRM routes */
 app.use("/api/customers", customerRoutes);
 app.use("/api/properties", propertyRoutes);
 app.use("/api/leads", leadRoutes);
 app.use("/api/followups", followUpRoutes);
-app.use("/api/auth", authRoutes);
+app.use("/api/owners", ownerRoutes);
 
+/*
+|--------------------------------------------------------------------------
+| Health Check
+|--------------------------------------------------------------------------
+*/
 
 app.get("/", (req, res) => {
   res.json({
+    success: true,
     message: "EstateCRM API is running",
   });
 });
 
+/*
+|--------------------------------------------------------------------------
+| MongoDB Connection
+|--------------------------------------------------------------------------
+*/
 
 mongoose
   .connect(process.env.MONGO_URI)

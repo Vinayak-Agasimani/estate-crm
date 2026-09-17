@@ -1,52 +1,82 @@
 import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
+
+  const isHome = location.pathname === "/";
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
 
   return (
-    <header className="fixed top-0 left-0 z-50 w-full px-6 py-5 md:px-10">
+    <header className="fixed left-0 top-0 z-50 w-full px-6 py-5 md:px-10">
       <nav className="mx-auto flex max-w-7xl items-center justify-between">
-        
-        {/* Logo */}
-        <a
-          href="/"
+        {/* LOGO */}
+
+        <Link
+          to="/"
+          onClick={closeMenu}
           className="text-xl font-semibold tracking-[0.18em] text-white"
         >
-          ESTATE<span className="text-white/50">CRM</span>
-        </a>
+          Kundanagari
+          <span className="text-white/50">Property</span>
+        </Link>
 
-        {/* Desktop Navigation */}
+        {/* DESKTOP NAV */}
+
         <div className="hidden items-center gap-8 md:flex">
-          <a
-            href="#properties"
+          <Link
+            to="/properties"
             className="text-sm text-white/70 transition hover:text-white"
           >
             Properties
-          </a>
+          </Link>
 
-          <a
-            href="#about"
-            className="text-sm text-white/70 transition hover:text-white"
-          >
-            About
-          </a>
+          {isHome ? (
+            <a
+              href="#about"
+              className="text-sm text-white/70 transition hover:text-white"
+            >
+              About
+            </a>
+          ) : (
+            <Link
+              to="/#about"
+              className="text-sm text-white/70 transition hover:text-white"
+            >
+              About
+            </Link>
+          )}
 
-          <a
-            href="#contact"
-            className="text-sm text-white/70 transition hover:text-white"
-          >
-            Contact
-          </a>
+          {isHome ? (
+            <a
+              href="#contact"
+              className="text-sm text-white/70 transition hover:text-white"
+            >
+              Contact
+            </a>
+          ) : (
+            <Link
+              to="/#contact"
+              className="text-sm text-white/70 transition hover:text-white"
+            >
+              Contact
+            </Link>
+          )}
 
-          <a
-            href="/admin/login"
+          <Link
+            to="/admin/login"
             className="rounded-full border border-white/30 px-5 py-2.5 text-sm text-white transition duration-300 hover:bg-white hover:text-black"
           >
             Admin Login
-          </a>
+          </Link>
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* MOBILE BUTTON */}
+
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-white md:hidden"
@@ -59,40 +89,62 @@ function Navbar() {
         </button>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* MOBILE MENU */}
+
       {menuOpen && (
-        <div className="mx-4 mt-4 rounded-2xl border border-white/10 bg-black/80 p-6 backdrop-blur-xl md:hidden">
+        <div className="mx-4 mt-4 rounded-2xl border border-white/10 bg-black/90 p-6 backdrop-blur-xl md:hidden">
           <div className="flex flex-col gap-5">
-            <a
-              href="#properties"
-              onClick={() => setMenuOpen(false)}
+            <Link
+              to="/properties"
+              onClick={closeMenu}
               className="text-white/80"
             >
               Properties
-            </a>
+            </Link>
 
-            <a
-              href="#about"
-              onClick={() => setMenuOpen(false)}
-              className="text-white/80"
-            >
-              About
-            </a>
+            {isHome ? (
+              <a
+                href="#about"
+                onClick={closeMenu}
+                className="text-white/80"
+              >
+                About
+              </a>
+            ) : (
+              <Link
+                to="/#about"
+                onClick={closeMenu}
+                className="text-white/80"
+              >
+                About
+              </Link>
+            )}
 
-            <a
-              href="#contact"
-              onClick={() => setMenuOpen(false)}
-              className="text-white/80"
-            >
-              Contact
-            </a>
+            {isHome ? (
+              <a
+                href="#contact"
+                onClick={closeMenu}
+                className="text-white/80"
+              >
+                Contact
+              </a>
+            ) : (
+              <Link
+                to="/#contact"
+                onClick={closeMenu}
+                className="text-white/80"
+              >
+                Contact
+              </Link>
+            )}
 
-            <a
-              href="/admin/login"
+            <Link
+              to="/admin/login"
+              onClick={closeMenu}
               className="rounded-full border border-white/30 px-5 py-3 text-center text-white"
             >
               Admin Login
-            </a>
+            </Link>
           </div>
         </div>
       )}

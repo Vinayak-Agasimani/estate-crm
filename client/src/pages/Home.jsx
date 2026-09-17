@@ -808,7 +808,7 @@ function Home() {
           </p>
 
           <p className="text-xs text-white/30">
-            © {new Date().getFullYear()} EstateCRM. All
+            © {new Date().getFullYear()} KundanagariProperties. All
             rights reserved.
           </p>
 

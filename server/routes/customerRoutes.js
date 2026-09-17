@@ -7,6 +7,7 @@ const {
   getCustomers,
   getCustomerById,
   updateCustomer,
+  getCustomer360,
 } = require("../controllers/customerController");
 
 const router = express.Router();
@@ -15,6 +16,8 @@ const router = express.Router();
 router.post("/", protect, createCustomer);
 
 router.get("/", protect, getCustomers);
+
+router.get("/:id/360", protect, getCustomer360);
 
 router.get("/:id", protect, getCustomerById);
 

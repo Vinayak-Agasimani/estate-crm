@@ -1,4 +1,6 @@
 const Customer = require("../models/Customer");
+const Lead = require("../models/Lead");
+const FollowUp = require("../models/FollowUp");
 
 // CREATE CUSTOMER
 const createCustomer = async (req, res) => {
@@ -42,6 +44,75 @@ const createCustomer = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Failed to create customer",
+      error: error.message,
+    });
+  }
+};
+
+// GET CUSTOMER 360
+const getCustomer360 = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Get customer information
+    const customer = await Customer.findById(id)
+      .populate(
+        "assignedAgent",
+        "name email phone role"
+      );
+
+    if (!customer) {
+      return res.status(404).json({
+        success: false,
+        message: "Customer not found",
+      });
+    }
+
+    // Get all leads belonging to this customer
+    const leads = await Lead.find({
+      customerId: id,
+    })
+      .populate(
+        "propertyId",
+        "title propertyType transactionType price city locality status images"
+      )
+      .populate(
+        "assignedAgent",
+        "name email phone role"
+      )
+      .sort({ createdAt: -1 });
+
+    // Get all follow-ups belonging to this customer
+    const followUps = await FollowUp.find({
+      customerId: id,
+    })
+      .populate(
+        "leadId",
+        "status priority propertyId"
+      )
+      .populate(
+        "assignedTo",
+        "name email phone role"
+      )
+      .sort({ date: -1 });
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        customer,
+        leads,
+        followUps,
+      },
+    });
+  } catch (error) {
+    console.error(
+      "Get customer 360 error:",
+      error
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch customer 360 data",
       error: error.message,
     });
   }
@@ -140,4 +211,5 @@ module.exports = {
   getCustomers,
   getCustomerById,
   updateCustomer,
+  getCustomer360,
 };
