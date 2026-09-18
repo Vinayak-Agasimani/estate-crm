@@ -409,7 +409,7 @@ function Dashboard() {
             NAVIGATION
         ===================================================== */}
 
-        <section className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <section className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
 
           <Link
             to="/admin/leads"
@@ -437,6 +437,13 @@ function Dashboard() {
             className="rounded-2xl border border-black/10 bg-white px-5 py-4 text-sm transition hover:bg-black hover:text-white"
           >
             Manage Properties →
+          </Link>
+
+          <Link
+            to="/admin/owners"
+            className="rounded-2xl border border-black/10 bg-white px-5 py-4 text-sm transition hover:bg-black hover:text-white"
+          >
+            Manage Owners →
           </Link>
 
         </section>

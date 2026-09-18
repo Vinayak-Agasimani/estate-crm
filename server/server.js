@@ -16,6 +16,7 @@ const followUpRoutes = require("./routes/followUpRoutes");
 const authRoutes = require("./routes/authRoutes");
 const publicRoutes = require("./routes/publicRoutes");
 const ownerRoutes = require("./routes/ownerRoutes");
+const activityRoutes = require("./routes/activityRoutes");
 
 const app = express();
 
@@ -59,6 +60,7 @@ app.use("/api/properties", propertyRoutes);
 app.use("/api/leads", leadRoutes);
 app.use("/api/followups", followUpRoutes);
 app.use("/api/owners", ownerRoutes);
+app.use("/api/activities", activityRoutes);
 
 /*
 |--------------------------------------------------------------------------

@@ -15,6 +15,7 @@ import Customers from "./pages/admin/Customers";
 import Leads from "./pages/admin/Leads";
 import FollowUps from "./pages/admin/FollowUps";
 import CustomerDetails from "./pages/admin/CustomerDetails";
+import Owners from "./pages/admin/Owners";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -85,6 +86,11 @@ function App() {
           <Route
             path="/admin/followups"
             element={<FollowUps />}
+          />
+
+          <Route
+            path="/admin/owners"
+            element={<Owners />}
           />
 
         </Route>
